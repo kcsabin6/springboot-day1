@@ -1,4 +1,4 @@
-package com.rab3tech.dao;
+/*package com.rab3tech.dao;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -24,7 +24,7 @@ public class ProfileDaoImpl implements ProfileDao{
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	/*@Autowired
+	@Autowired
 	@Qualifier("pdataSource")
 	private DataSource datasource;
 	
@@ -34,7 +34,7 @@ public class ProfileDaoImpl implements ProfileDao{
 	public void magicMethod(){
 		//because of this line JdbcTemplate can talk to database
 		jdbcTemplate = new JdbcTemplate(datasource);
-	}*/
+	}
 	
 	
 	@Override
@@ -156,8 +156,8 @@ public class ProfileDaoImpl implements ProfileDao{
 		Object[] data={pemail};
 		ProfileEntity profileDTO=jdbcTemplate.queryForObject(sql, data,new BeanPropertyRowMapper<>(ProfileEntity.class));
 		return profileDTO;
-		/*List<ProfileDTO> profileDTOs=jdbcTemplate.query(sql,data,new BeanPropertyRowMapper(ProfileDTO.class));
-		return profileDTOs.get(0);*/
+		List<ProfileDTO> profileDTOs=jdbcTemplate.query(sql,data,new BeanPropertyRowMapper(ProfileDTO.class));
+		return profileDTOs.get(0);
 	}
 
 	@Override
@@ -226,7 +226,7 @@ public class ProfileDaoImpl implements ProfileDao{
 		
 		}
 	
-	/*@Override
+	@Override
 	public void show(){
 		try {
 		Connection conn=datasource.getConnection();
@@ -237,5 +237,6 @@ public class ProfileDaoImpl implements ProfileDao{
 			e.printStackTrace();
 		}
 		
-	}*/
+	}
 }
+*/

@@ -1,4 +1,4 @@
-package com.rab3tech.dao;
+/*package com.rab3tech.dao;
 
 import java.util.List;
 
@@ -45,3 +45,4 @@ public interface ProfileDao {
 	
 
 }
+*/

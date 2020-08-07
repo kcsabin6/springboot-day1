@@ -1,12 +1,8 @@
 package com.rab3tech.service;
 
 import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.rab3tech.controller.dto.ProfileDTO;
 
-@Service
 public interface ProfileService {
 	
 	void show();
