@@ -21,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.rab3tech.controller.dto.ProfileDTO;
 import com.rab3tech.controller.utils.Utils;
+import com.rab3tech.dao.entity.ProfileEntity;
+import com.rab3tech.service.EmailService;
 import com.rab3tech.service.ProfileService;
 
 @Controller
@@ -30,25 +32,31 @@ public class CustomerController {
 	private ProfileService profileService;
 	
 	@Autowired 
-	private MailSender mailsender;
+	private EmailService emailService;
 	
 
 	/* spring container says do not use -->> HttpServletRequest */
 
 	@PostMapping("/changeImage") // data is retrieved from the database so use
 	public String updateImage(@RequestParam("file") MultipartFile file,
-			@RequestParam("username") String username,@ModelAttribute ProfileDTO profileDTO) {
+			@RequestParam("username") String username,@ModelAttribute ProfileDTO profileDTO) throws IOException {
 		//here write code
 		//upadate photo into database
 		profileDTO.setFile(file);
-		profileDTO.setUsername(username);		
-		profileService.updatePhotoiProfiles(profileDTO);
+		profileDTO.setUsername(username);
 		
-		SimpleMailMessage email = new SimpleMailMessage();
+		byte[] oldpic=profileService.findPhotoByUsername(username);
+		profileService.updatePhotoiProfiles(profileDTO);
+		byte[] newpic=profileService.findPhotoByUsername(username);
+		//byte[] newpic=file.getBytes();
+		
+		emailService.sendProfileEmail(username, "javahunk100@gmaill.com", profileDTO.getName(), oldpic, newpic);
+	
+		/*SimpleMailMessage email = new SimpleMailMessage();
 		email.setTo(username);
 		email.setSubject("Regarding image upload");
 		email.setText("Hello your profile image is updated");
-		mailsender.send(email);
+		mailsender.send(email);*/
 		
 		return "redirect:/iprofiles";
 	}
@@ -58,7 +66,8 @@ public class CustomerController {
 	
 	@GetMapping("/iprofiles") // data is retrieved from the database so use
 	public String iprofiles(Model model) {
-		List<ProfileDTO> profileDTOs = profileService.findAllWithPhoto();
+		//List<ProfileDTO> profileDTOs = profileService.findAllWithPhoto();
+		List<ProfileDTO> profileDTOs = profileService.findAll();
 		model.addAttribute("profileDTOs", profileDTOs);
 		model.addAttribute("listoptions", profileService.findAllQualification());
 		return "iprofiles";
